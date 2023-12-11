@@ -1,12 +1,14 @@
 package hiber.dao;
 
 import hiber.model.User;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface UserDao {
-   void add(User user);
+   public void add(User user);
 
-   List<User> listUsers();
+   public List<User> listUsers();
 
-   List<User> findCar(String model, int series);
+   public List<User> getUserByCar(String model, Integer series);
 }

@@ -5,6 +5,8 @@ import hiber.model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +31,12 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public List<User> findCar(String model, int series) {
-        List<Car> carQuery = sessionFactory.getCurrentSession().createQuery(("from Car where model = '" + model + "' and series = '" + series + "'"))
-                .getResultList();
-        List<User> owners = new ArrayList<>();
-        for (Car car : carQuery) {
-            owners.add(car.getUser());
-        }
-        return owners;
+    public List<User> getUserByCar(String model, Integer series) {
+
+        TypedQuery<User> carQuery = sessionFactory.getCurrentSession().createQuery("from User user where user.car.model = :model and user.car.series = :series");
+        carQuery.setParameter("model", model);
+        carQuery.setParameter("series", series);
+        List<User> user = carQuery.getResultList();
+        return user;
     }
 }
